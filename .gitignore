@@ -1,5 +1,5 @@
 HELP.md
-target/
+backend-code-evaluator/target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -14,13 +14,13 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+backend-code-evaluator/.idea
 *.iws
 *.iml
 *.ipr
 
 ### NetBeans ###
-/nbproject/private/
+backend-code-evaluator/nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
@@ -30,4 +30,4 @@ build/
 !**/src/test/**/build/
 
 ### VS Code ###
-.vscode/
+backend-code-evaluator/.vscode/
