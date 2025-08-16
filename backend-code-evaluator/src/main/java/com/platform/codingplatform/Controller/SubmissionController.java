@@ -6,6 +6,7 @@ import com.platform.codingplatform.runner.PythonExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,7 @@ public class SubmissionController {
     @PostMapping("/{problemId}")
     public Map<String, Object> evaluateCode(@PathVariable Long problemId, @RequestBody Map<String, String> body){
         String code = body.get("code");
+        System.out.println(code);
 
         List<TestCase> testCases = testCaseRepository.findByProblemId(problemId);
         List<Map<String, Object>> results = new ArrayList<>();

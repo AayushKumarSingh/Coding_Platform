@@ -28,6 +28,7 @@ public class PythonExecutor {
 
 
             boolean finished = process.waitFor(30, TimeUnit.SECONDS);
+            System.out.println("Exitied");
 
             if (!finished) {
                 process.destroyForcibly();

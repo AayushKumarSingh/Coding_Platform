@@ -29,6 +29,7 @@ public class Problem {
 //    @CollectionTable(name = "problem_testcases", joinColumns = @JoinColumn(name = "problem_id"))
 //    private List<String> testCases; // Can store inputs and outputs in a specific format
 
-    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "problem_id")
     private List<TestCase> testCases;
 }

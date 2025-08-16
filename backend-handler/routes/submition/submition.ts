@@ -25,8 +25,8 @@ router.post('/', async (req, res) => {
 
         // Send to Spring Boot solver
         axios.post(`http://localhost:8080/api/submit/${questionId}`, {
-            code,
-            language
+            code: code,
+            // language: language
         }).then(async (solverRes) => {
             // Update Redis when solver responds
             await Redis.set(redisKey, JSON.stringify({
