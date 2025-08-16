@@ -14,27 +14,29 @@ router.post('/', async (req, res) => {
             return res.status(400).json({ error: 'Missing required fields' });
         }
 
-        const jobId = uuidv4(); // Generate unique job ID
+        const jobId = uuidv4();
         const redisKey = `job:${jobId}`;
 
-        // Set initial status in Redis
-        await Redis.set(redisKey, JSON.stringify({
-            status: 'pending',
-            result: null
-        }));
+        // Set initial status
+        await Redis.set(redisKey, JSON.stringify({ status: 'pending', result: null }));
 
         // Send to Spring Boot solver
-        axios.post(`http://localhost:8080/api/submit/${questionId}`, {
-            code: code,
-            // language: language
-        }).then(async (solverRes) => {
-            // Update Redis when solver responds
+        const payload = JSON.stringify({ code, language });
+
+        axios({
+            method: 'post',
+            url: `https://pink-pets-grab.loca.lt/api/submit/${questionId}`,
+            headers: { 'Content-Type': 'application/json' },
+            maxBodyLength: Infinity,
+            data: payload
+        })
+        .then(async (solverRes) => {
             await Redis.set(redisKey, JSON.stringify({
                 status: 'completed',
                 result: solverRes.data
             }));
-        }).catch(async (err) => {
-            // Update Redis if error
+        })
+        .catch(async (err) => {
             await Redis.set(redisKey, JSON.stringify({
                 status: 'error',
                 error: err.message
@@ -49,6 +51,8 @@ router.post('/', async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 });
+
+
 
 // GET /status/:jobId → Check job status
 router.get('/status/:jobId', async (req, res) => {
